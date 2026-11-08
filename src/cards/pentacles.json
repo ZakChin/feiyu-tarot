@@ -1,0 +1,198 @@
+[
+  {
+    "id": "pentacles-1",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "rank": 1,
+    "name": "星币一",
+    "nameEn": "Ace of Pentacles",
+    "keywords": { "upright": ["机会", "种子", "务实开始"], "reversed": ["错过", "计划落空", "地基不稳"] },
+    "fortune": { "upright": "good", "reversed": "shadow" },
+    "text": {
+      "upright": "一个实在的机会落到你手上：一份工作、一笔收入，或一项能长期养的技能。今天把它具体化——开户、报名、写下第一步。",
+      "reversed": "机会摆在面前却迟迟没有落地，可能是准备不足，也可能是你没当真。先检查最基础的一环：钱、时间、技能，缺哪样就补哪样。"
+    }
+  },
+  {
+    "id": "pentacles-2",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "rank": 2,
+    "name": "星币二",
+    "nameEn": "Two of Pentacles",
+    "keywords": { "upright": ["平衡", "灵活", "多线并行"], "reversed": ["失衡", "手忙脚乱", "透支"] },
+    "fortune": { "upright": "neutral", "reversed": "shadow" },
+    "text": {
+      "upright": "你在几件事之间来回平衡，暂时还撑得住。把要花的钱和时间记下来，砍掉一件暂时不必做的，给自己留出缓冲。",
+      "reversed": "同时抓住的东西太多，开始往下掉。今天只保留两件最重要的事，其余明确推迟；向人求助不是失败，是把事做完的一部分。"
+    }
+  },
+  {
+    "id": "pentacles-3",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "rank": 3,
+    "name": "星币三",
+    "nameEn": "Three of Pentacles",
+    "keywords": { "upright": ["协作", "手艺", "被认可"], "reversed": ["各自为政", "标准不一", "成果打折"] },
+    "fortune": { "upright": "good", "reversed": "neutral" },
+    "text": {
+      "upright": "你被看见的不只是成果，还有做事的方式。和同伴对齐标准、分清分工，把一件小事做到可以交出去的程度。",
+      "reversed": "合作里出现了重复与缝隙，问题不在能力，而在没说清。把谁负责什么写下来，约一个固定的同步时间，先修流程再赶进度。"
+    }
+  },
+  {
+    "id": "pentacles-4",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "rank": 4,
+    "name": "星币四",
+    "nameEn": "Four of Pentacles",
+    "keywords": { "upright": ["守成", "安全感", "控制"], "reversed": ["松手", "慷慨", "放下掌控"] },
+    "fortune": { "upright": "neutral", "reversed": "neutral" },
+    "text": {
+      "upright": "你握得很紧，因为怕失去。守住重要的没错，但检查一下：哪份紧是安全，哪份紧是恐惧？松开一点点，未必会掉。",
+      "reversed": "你开始愿意松手：花钱、分享、把控制交出去一点。留意别从死守跳到全放，先分清楚哪些资源是必须留住的。"
+    }
+  },
+  {
+    "id": "pentacles-5",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "rank": 5,
+    "name": "星币五",
+    "nameEn": "Five of Pentacles",
+    "keywords": { "upright": ["匮乏", "被排除", "寒冷期"], "reversed": ["回暖", "接受帮助", "走出困境"] },
+    "fortune": { "upright": "shadow", "reversed": "good" },
+    "text": {
+      "upright": "眼下确实紧：钱、机会或支持都不够用。别独自硬扛，先找可用的公共资源与肯帮你的人，把需求说具体，比等人发现有用。",
+      "reversed": "最冷的那段开始过去，援助与机会重新出现。接受别人递来的手，也把自己能给的还回去一点，循环转起来，日子就活了。"
+    }
+  },
+  {
+    "id": "pentacles-6",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "rank": 6,
+    "name": "星币六",
+    "nameEn": "Six of Pentacles",
+    "keywords": { "upright": ["给予", "接受", "公平交换"], "reversed": ["人情债", "失衡", "附带条件"] },
+    "fortune": { "upright": "good", "reversed": "shadow" },
+    "text": {
+      "upright": "资源正在流动，你或给或受。给的时候把条件说清楚，受的时候不必羞愧；让帮助保持干净，关系才走得长。",
+      "reversed": "给予背后开始带条件，接受的一方感到被绑住。把「我给过你」这句话收起来，重新谈一次彼此真正需要的交换方式。"
+    }
+  },
+  {
+    "id": "pentacles-7",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "rank": 7,
+    "name": "星币七",
+    "nameEn": "Seven of Pentacles",
+    "keywords": { "upright": ["等待", "评估", "长期投入"], "reversed": ["焦躁", "收效甚微", "止损重估"] },
+    "fortune": { "upright": "neutral", "reversed": "shadow" },
+    "text": {
+      "upright": "投入已经发生，收成需要时间。别急着推倒重来，先评估：哪些在长，哪些在耗？把力气留给回报正在出现的那一块。",
+      "reversed": "等得有点烦，回报却比预期少。给自己一个明确的观察期，到期还没起色就果断调整；坚持值得，盲等不值得。"
+    }
+  },
+  {
+    "id": "pentacles-8",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "rank": 8,
+    "name": "星币八",
+    "nameEn": "Eight of Pentacles",
+    "keywords": { "upright": ["精进", "专注", "打磨"], "reversed": ["敷衍", "追求完美", "倦怠"] },
+    "fortune": { "upright": "good", "reversed": "neutral" },
+    "text": {
+      "upright": "手艺是靠重复长出来的。今天把流程拆细，专注练其中一环；不追求一次做好，只要求比昨天准一点、快一点。",
+      "reversed": "你可能陷在「还不够好」里，反复改却交不出去。定一个及格线，先交付一版；质量是在真实反馈里提升的，不是在脑内。"
+    }
+  },
+  {
+    "id": "pentacles-9",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "rank": 9,
+    "name": "星币九",
+    "nameEn": "Nine of Pentacles",
+    "keywords": { "upright": ["自足", "成果", "从容"], "reversed": ["空有体面", "过度依赖", "不敢休息"] },
+    "fortune": { "upright": "good", "reversed": "neutral" },
+    "text": {
+      "upright": "你攒下的东西开始回报你了：稳定的收入、靠得住的手艺、能独处的房间。今天停下来享受，别急着把日程再填满。",
+      "reversed": "表面过得去，内里可能在撑。算一算哪些开销与承诺是为了给别人看；先把底座垫稳，再谈照顾别人。安稳不必演给谁看。"
+    }
+  },
+  {
+    "id": "pentacles-10",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "rank": 10,
+    "name": "星币十",
+    "nameEn": "Ten of Pentacles",
+    "keywords": { "upright": ["传承", "家业", "稳固根基"], "reversed": ["家事缠身", "根基松动", "为钱争执"] },
+    "fortune": { "upright": "good", "reversed": "shadow" },
+    "text": {
+      "upright": "你已经拥有可以传给别人的东西：家、资源、一套能延续的做法。把它记录下来、交给对的人，让积累不止停在你这代。",
+      "reversed": "稳定的背后出现了裂缝：家里的事、钱的分配、谁说了算。别在情绪上谈，先把账目与责任列清楚，再坐下来谈情分。"
+    }
+  },
+  {
+    "id": "pentacles-11",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "rank": 11,
+    "name": "星币侍从",
+    "nameEn": "Page of Pentacles",
+    "keywords": { "upright": ["学习", "起步", "踏实"], "reversed": ["拖延", "三分钟热度", "计划落空"] },
+    "fortune": { "upright": "good", "reversed": "shadow" },
+    "text": {
+      "upright": "你正对一个新领域产生兴趣，适合从小处开始学。报一门课、跟一个师傅、每天练二十分钟，把兴趣变成手上的本事。",
+      "reversed": "计划写了却没开工，热情散得比来得快。把目标缩到小得不可能失败：今天只做十分钟，做完打个勾，明天继续。"
+    }
+  },
+  {
+    "id": "pentacles-12",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "rank": 12,
+    "name": "星币骑士",
+    "nameEn": "Knight of Pentacles",
+    "keywords": { "upright": ["稳步", "可靠", "按部就班"], "reversed": ["停滞", "麻木", "过度保守"] },
+    "fortune": { "upright": "neutral", "reversed": "shadow" },
+    "text": {
+      "upright": "进展不快，但每一步都算数。维持固定节奏：同一时间做同一件事，把长期目标拆成今天能完成的一小段。",
+      "reversed": "你一直在做，却没抬头看方向对不对。停下来半天，检查方法是不是已经过时；换个更省力的做法，比多熬两小时有用。"
+    }
+  },
+  {
+    "id": "pentacles-13",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "rank": 13,
+    "name": "星币王后",
+    "nameEn": "Queen of Pentacles",
+    "keywords": { "upright": ["滋养", "务实", "丰盛"], "reversed": ["自我忽略", "过度操心", "失衡"] },
+    "fortune": { "upright": "good", "reversed": "shadow" },
+    "text": {
+      "upright": "你擅长把日子过稳：照顾人、管好钱、让家有温度。别忘了把自己也算进要照顾的名单里，先给自己留出休息与预算。",
+      "reversed": "你把所有人都照顾好了，只剩自己没被照顾。今天拒绝一件不必要的事，把时间与钱先分一点给自己，这不是自私。"
+    }
+  },
+  {
+    "id": "pentacles-14",
+    "arcana": "minor",
+    "suit": "pentacles",
+    "rank": 14,
+    "name": "星币国王",
+    "nameEn": "King of Pentacles",
+    "keywords": { "upright": ["经营", "权威", "长期主义"], "reversed": ["贪婪", "固执", "资源错配"] },
+    "fortune": { "upright": "good", "reversed": "shadow" },
+    "text": {
+      "upright": "你手上握有资源与决定权，适合把成果变成能长期运转的结构。建立规则、培养人、把利润的一部分投向未来。",
+      "reversed": "资源握得太死，人开始绕着你的规则转而不愿靠近。把钱与权分出去一部分，听听前线的人怎么说；真正的稳，是系统能自己转。"
+    }
+  }
+]

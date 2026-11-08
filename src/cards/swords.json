@@ -1,0 +1,198 @@
+[
+  {
+    "id": "swords-1",
+    "arcana": "minor",
+    "suit": "swords",
+    "rank": 1,
+    "name": "宝剑一",
+    "nameEn": "Ace of Swords",
+    "keywords": { "upright": ["清晰", "决断", "突破"], "reversed": ["混乱", "误信", "言语伤人"] },
+    "fortune": { "upright": "good", "reversed": "shadow" },
+    "text": {
+      "upright": "一个念头忽然变得清楚：你终于说得出口那个问题，也看得见它的答案。趁这股清醒，把想法写下来，再挑一件小事今天就动手，让真相落到行动上。",
+      "reversed": "想法很多却拧不成一条线，或者一句话没说好就伤了人。先别急着证明自己对，把事实和猜测分开写；确认对方听懂了，再继续。"
+    }
+  },
+  {
+    "id": "swords-2",
+    "arcana": "minor",
+    "suit": "swords",
+    "rank": 2,
+    "name": "宝剑二",
+    "nameEn": "Two of Swords",
+    "keywords": { "upright": ["僵持", "权衡", "回避"], "reversed": ["松动", "信息过载", "被迫决断"] },
+    "fortune": { "upright": "neutral", "reversed": "neutral" },
+    "text": {
+      "upright": "你在两个选项之间端着，闭着眼睛拖时间。写下各自最坏的结果与最在乎的那一项，给自己一个截止时间；不选，其实也是一种选择。",
+      "reversed": "僵局开始松动，但信息一下子涌来，容易仓促下结论。把必须今天决定的事和可以再等等的事分开，先处理影响最大的那一件。"
+    }
+  },
+  {
+    "id": "swords-3",
+    "arcana": "minor",
+    "suit": "swords",
+    "rank": 3,
+    "name": "宝剑三",
+    "nameEn": "Three of Swords",
+    "keywords": { "upright": ["心碎", "真相伤人", "释放"], "reversed": ["止血", "原谅", "慢慢复原"] },
+    "fortune": { "upright": "shadow", "reversed": "good" },
+    "text": {
+      "upright": "一句话、一个结果，让你心里确实疼了一下。别急着把疼说成没事；找信任的人说清楚发生了什么，把能修的和修不了的分开看。",
+      "reversed": "最疼的那阵已经过去，你开始能把事情讲完整了。允许自己复原得慢一点，删掉反复翻看的聊天记录，把注意力放回今天能做的事。"
+    }
+  },
+  {
+    "id": "swords-4",
+    "arcana": "minor",
+    "suit": "swords",
+    "rank": 4,
+    "name": "宝剑四",
+    "nameEn": "Four of Swords",
+    "keywords": { "upright": ["休息", "暂停", "恢复"], "reversed": ["耗竭", "睡不着", "强撑"] },
+    "fortune": { "upright": "neutral", "reversed": "shadow" },
+    "text": {
+      "upright": "你需要的是暂停，不是放弃。把手机放远一小时，睡够、吃好，让紧绷的脑子空下来；休息好了，再回来处理那件难事。",
+      "reversed": "你明明累得不行，却还是停不下来，身体在用疲惫提醒你。今天先减掉一件非必要的事，把睡觉排进日程，别等到倒下才允许自己停。"
+    }
+  },
+  {
+    "id": "swords-5",
+    "arcana": "minor",
+    "suit": "swords",
+    "rank": 5,
+    "name": "宝剑五",
+    "nameEn": "Five of Swords",
+    "keywords": { "upright": ["争执", "赢输", "孤立"], "reversed": ["和解", "放下胜负", "止损"] },
+    "fortune": { "upright": "shadow", "reversed": "good" },
+    "text": {
+      "upright": "一场争执里，赢了道理却输了关系。先问自己真正想要的是对，还是继续相处；如果值得，就主动说一句缓和的话，退出这场输赢。",
+      "reversed": "你可能已经厌倦了这场消耗。把谁对谁错先放一边，找一个双方都能接受的小让步，关系才有重新开始的空间。"
+    }
+  },
+  {
+    "id": "swords-6",
+    "arcana": "minor",
+    "suit": "swords",
+    "rank": 6,
+    "name": "宝剑六",
+    "nameEn": "Six of Swords",
+    "keywords": { "upright": ["过渡", "离开", "恢复节奏"], "reversed": ["滞留", "旧事重提", "拖延行动"] },
+    "fortune": { "upright": "good", "reversed": "shadow" },
+    "text": {
+      "upright": "你正在离开一段浑浊的水域。别回头解释太多，带上必需的东西向前走；路上遇见的平静，会帮你把思路重新整理好。",
+      "reversed": "身体往前走了，心还留在原地。给那段旧事一个正式的收尾——写封不寄的信、删掉旧照片，让离开这件事真正完成。"
+    }
+  },
+  {
+    "id": "swords-7",
+    "arcana": "minor",
+    "suit": "swords",
+    "rank": 7,
+    "name": "宝剑七",
+    "nameEn": "Seven of Swords",
+    "keywords": { "upright": ["策略", "隐瞒", "独自行动"], "reversed": ["真相显露", "坦白", "停止欺骗"] },
+    "fortune": { "upright": "shadow", "reversed": "neutral" },
+    "text": {
+      "upright": "你在用策略绕开正面冲突，这未必是坏事，但要确认底线没被绕进去。把计划写下来，找出最容易被戳破的一环，补上它。",
+      "reversed": "藏着的部分开始显露，与其等人揭穿，不如自己先说清楚。把动机讲明白，承担该承担的那一部分，你会轻松很多。"
+    }
+  },
+  {
+    "id": "swords-8",
+    "arcana": "minor",
+    "suit": "swords",
+    "rank": 8,
+    "name": "宝剑八",
+    "nameEn": "Eight of Swords",
+    "keywords": { "upright": ["受困", "自我设限", "无力感"], "reversed": ["松绑", "看清出口", "重新行动"] },
+    "fortune": { "upright": "shadow", "reversed": "good" },
+    "text": {
+      "upright": "限制比你以为的多是想法，不是墙。先把「我不能」换成「我还没找到方法」，再挑出一条今天就能松动的小缝，走出去一步。",
+      "reversed": "绳子正在松开，你开始看见出口在哪里。别一次要求自己彻底自由，先做一件被搁置很久的小事，用行动确认限制已经变了。"
+    }
+  },
+  {
+    "id": "swords-9",
+    "arcana": "minor",
+    "suit": "swords",
+    "rank": 9,
+    "name": "宝剑九",
+    "nameEn": "Nine of Swords",
+    "keywords": { "upright": ["焦虑", "夜思", "反复担心"], "reversed": ["求助", "恐惧退潮", "放过自己"] },
+    "fortune": { "upright": "shadow", "reversed": "neutral" },
+    "text": {
+      "upright": "夜里的担心被放大成了灾难。把脑子里循环的那句话写在纸上，逐条问：证据是什么？最坏会怎样？今天能做的是什么？",
+      "reversed": "最糟的想象开始退潮，你发现天并没有塌。把担心说给一个信得过的人听，白天补一觉；不必一个人把所有念头扛完。"
+    }
+  },
+  {
+    "id": "swords-10",
+    "arcana": "minor",
+    "suit": "swords",
+    "rank": 10,
+    "name": "宝剑十",
+    "nameEn": "Ten of Swords",
+    "keywords": { "upright": ["终结", "触底", "放下"], "reversed": ["回稳", "最坏已过", "重新站起"] },
+    "fortune": { "upright": "shadow", "reversed": "good" },
+    "text": {
+      "upright": "一件事已经走到尽头，再撑只是延长疼痛。承认结束，把该收的尾收掉：道别、交接、归档；腾出的位置，才装得下新的开始。",
+      "reversed": "最坏的时刻正在过去，你开始有力气收拾现场了。先做一件恢复秩序的小事——整理桌面、还一笔小账，让自己确认生活还能推进。"
+    }
+  },
+  {
+    "id": "swords-11",
+    "arcana": "minor",
+    "suit": "swords",
+    "rank": 11,
+    "name": "宝剑侍从",
+    "nameEn": "Page of Swords",
+    "keywords": { "upright": ["好奇", "观察", "收集信息"], "reversed": ["流言", "浮躁", "说多错多"] },
+    "fortune": { "upright": "neutral", "reversed": "shadow" },
+    "text": {
+      "upright": "好奇心正旺，你适合去问、去查、去学。把听到的话和事实核对一遍，再决定要不要转述；多问一个为什么，少下结论。",
+      "reversed": "消息传得太快，你可能已经说了没核实的话。先停下来，把听说的和确认的分开；如果伤到人，直接道歉，比解释有效。"
+    }
+  },
+  {
+    "id": "swords-12",
+    "arcana": "minor",
+    "suit": "swords",
+    "rank": 12,
+    "name": "宝剑骑士",
+    "nameEn": "Knight of Swords",
+    "keywords": { "upright": ["急进", "直率", "行动力"], "reversed": ["莽撞", "后继无力", "口不择言"] },
+    "fortune": { "upright": "neutral", "reversed": "shadow" },
+    "text": {
+      "upright": "一股冲劲推着你立刻行动，方向却还没校准。先花十分钟确认目标与代价，再全力冲；速度用在对的地方，才叫效率。",
+      "reversed": "话说出口才后悔，或者冲到一半没了力气。把节奏调慢一档，重要的话先在心里过一遍；今天只挑一件真正要紧的事冲刺。"
+    }
+  },
+  {
+    "id": "swords-13",
+    "arcana": "minor",
+    "suit": "swords",
+    "rank": 13,
+    "name": "宝剑王后",
+    "nameEn": "Queen of Swords",
+    "keywords": { "upright": ["清醒", "独立", "坦率"], "reversed": ["冷硬", "言词锋利", "旧伤作痛"] },
+    "fortune": { "upright": "good", "reversed": "shadow" },
+    "text": {
+      "upright": "你已经能冷静地看清局面，也不必为这份清醒道歉。把边界讲清楚：什么可以、什么不行，用平和的语气一次说完整。",
+      "reversed": "清醒容易变成刻薄，你的直白可能正在划伤人。说话前先问自己：这句话是为了解决问题，还是为了赢？把玩笑与评判收一收。"
+    }
+  },
+  {
+    "id": "swords-14",
+    "arcana": "minor",
+    "suit": "swords",
+    "rank": 14,
+    "name": "宝剑国王",
+    "nameEn": "King of Swords",
+    "keywords": { "upright": ["理性", "公正", "权威"], "reversed": ["专断", "滥用逻辑", "冷酷无情"] },
+    "fortune": { "upright": "good", "reversed": "shadow" },
+    "text": {
+      "upright": "你处在需要做判断的位置上，靠的是原则而不是情绪。收集事实、听取两边、明确规则，然后给出一个能被执行的决定。",
+      "reversed": "逻辑被你用来压人，而不只是解决问题。听一听被你的判断影响的人怎么想，承认自己也可能错；把权力用在保护，而不是控制。"
+    }
+  }
+]

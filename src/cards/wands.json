@@ -1,0 +1,198 @@
+[
+  {
+    "id": "wands-1",
+    "arcana": "minor",
+    "suit": "wands",
+    "rank": 1,
+    "name": "权杖一",
+    "nameEn": "Ace of Wands",
+    "keywords": { "upright": ["新火种", "行动", "机会"], "reversed": ["熄火", "拖延", "方向不明"] },
+    "fortune": { "upright": "good", "reversed": "shadow" },
+    "text": {
+      "upright": "新的火种已经落到你手里，别等条件完美才行动。今天挑一件十分钟能起步的事先做，让热情有地方烧，方向会在动手之后变清楚。",
+      "reversed": "火苗被杂事压着，你容易把拖延误当成准备。先清掉一个最占心力的待办，再决定要不要继续；状态不是等来的，是做出来的。"
+    }
+  },
+  {
+    "id": "wands-2",
+    "arcana": "minor",
+    "suit": "wands",
+    "rank": 2,
+    "name": "权杖二",
+    "nameEn": "Two of Wands",
+    "keywords": { "upright": ["选择", "远望", "规划"], "reversed": ["观望", "选项受限", "犹豫"] },
+    "fortune": { "upright": "neutral", "reversed": "neutral" },
+    "text": {
+      "upright": "你站在门口，手里有地图。把两个选项各自最坏的结果写下来，看清代价再选；选定之后给自己一个短期限，别让观望变成习惯。",
+      "reversed": "你想得太多，脚却一直没迈出去。先砍掉暂时做不到的选项，只留一个可试的小方案；哪怕试错，也比在原地权衡更接近答案。"
+    }
+  },
+  {
+    "id": "wands-3",
+    "arcana": "minor",
+    "suit": "wands",
+    "rank": 3,
+    "name": "权杖三",
+    "nameEn": "Three of Wands",
+    "keywords": { "upright": ["初步成果", "等待回报", "视野"], "reversed": ["回收延迟", "假设失效", "焦躁"] },
+    "fortune": { "upright": "good", "reversed": "neutral" },
+    "text": {
+      "upright": "第一波已经出海，你现在能做的是看远一点、把下一批货备好。别天天盯着海面催结果，把注意力放回你能控制的那一端。",
+      "reversed": "等待期最容易让你自我怀疑。先核对当初的假设是否还成立：方向没错就再给一点时间，前提变了就及时调头，比硬撑划算。"
+    }
+  },
+  {
+    "id": "wands-4",
+    "arcana": "minor",
+    "suit": "wands",
+    "rank": 4,
+    "name": "权杖四",
+    "nameEn": "Four of Wands",
+    "keywords": { "upright": ["稳定", "庆祝", "阶段落定"], "reversed": ["根基松动", "庆祝延后", "内部摩擦"] },
+    "fortune": { "upright": "good", "reversed": "neutral" },
+    "text": {
+      "upright": "你手上的一个阶段可以落定了，值得好好庆祝一次。把该谢的人点到名字，把成果安放好；稳住这块地基，下一段路才走得踏实。",
+      "reversed": "表面的安稳下还有松动。别急着宣布一切就绪，先处理那个你一直绕开的小问题；庆祝可以延后，但裂缝要现在补。"
+    }
+  },
+  {
+    "id": "wands-5",
+    "arcana": "minor",
+    "suit": "wands",
+    "rank": 5,
+    "name": "权杖五",
+    "nameEn": "Five of Wands",
+    "keywords": { "upright": ["竞争", "冲突", "混战"], "reversed": ["避开争执", "设规则", "内耗"] },
+    "fortune": { "upright": "shadow", "reversed": "neutral" },
+    "text": {
+      "upright": "你和身边的争执多半不是原则问题，是节奏没对齐。先把各自的诉求摆到桌上，定一条共同的规则，再谈谁对谁错。",
+      "reversed": "你开始想退出这场混战，这是好信号。挑出真正值得争的一件事，其余的让掉；撤一步不是输，是把力气留给重要的地方。"
+    }
+  },
+  {
+    "id": "wands-6",
+    "arcana": "minor",
+    "suit": "wands",
+    "rank": 6,
+    "name": "权杖六",
+    "nameEn": "Six of Wands",
+    "keywords": { "upright": ["认可", "胜利", "被看见"], "reversed": ["光环落空", "依赖掌声", "功劳分配"] },
+    "fortune": { "upright": "good", "reversed": "shadow" },
+    "text": {
+      "upright": "你的努力被看见了，接住这份肯定，但别停在掌声里。把这次赢的方法记下来，下次遇到同类局面，你就有可复用的路径。",
+      "reversed": "外部的认可没有如期到来，容易让你怀疑自己。把评价权收回来，问自己哪里做得比上次好；真实的进步不需要观众。"
+    }
+  },
+  {
+    "id": "wands-7",
+    "arcana": "minor",
+    "suit": "wands",
+    "rank": 7,
+    "name": "权杖七",
+    "nameEn": "Seven of Wands",
+    "keywords": { "upright": ["守边界", "坚持立场", "压力"], "reversed": ["防守疲劳", "放下战场", "求助"] },
+    "fortune": { "upright": "shadow", "reversed": "neutral" },
+    "text": {
+      "upright": "你守的位置值得守，但不必对每一句质疑都回击。分清谁的话有分量，把边界说清楚一次，然后继续做你的事。",
+      "reversed": "长期防守让你疲惫，有些战场其实已经不属于你了。列出手上要挡的事，划掉其中一件，把力气省下来给自己。"
+    }
+  },
+  {
+    "id": "wands-8",
+    "arcana": "minor",
+    "suit": "wands",
+    "rank": 8,
+    "name": "权杖八",
+    "nameEn": "Eight of Wands",
+    "keywords": { "upright": ["推进", "速度", "消息"], "reversed": ["进度延迟", "信息混乱", "排序"] },
+    "fortune": { "upright": "good", "reversed": "neutral" },
+    "text": {
+      "upright": "消息和机会正在快速流动，别用慢节奏处理快局面。今天适合把待回复的事一次清空，让推进感带你再往前走一步。",
+      "reversed": "你手上的进度忽然卡住，信息也开始对不上。别同时追三条线，先确认最关键那一条的真实状态，把预期调回可以落地的范围。"
+    }
+  },
+  {
+    "id": "wands-9",
+    "arcana": "minor",
+    "suit": "wands",
+    "rank": 9,
+    "name": "权杖九",
+    "nameEn": "Nine of Wands",
+    "keywords": { "upright": ["最后坚持", "戒备", "疲惫"], "reversed": ["卸下盔甲", "休整", "松一口气"] },
+    "fortune": { "upright": "shadow", "reversed": "good" },
+    "text": {
+      "upright": "你已经走到最后一里，警惕是对的，但别把所有人都当成对手。检查一下防线，留一个能求助的入口，然后继续往前。",
+      "reversed": "那副盔甲可以卸下来了。找一个人说说你撑了多久，把任务分出去一部分；休息不是撤退，是为了还能走得更远。"
+    }
+  },
+  {
+    "id": "wands-10",
+    "arcana": "minor",
+    "suit": "wands",
+    "rank": 10,
+    "name": "权杖十",
+    "nameEn": "Ten of Wands",
+    "keywords": { "upright": ["重负", "超载", "责任感"], "reversed": ["放下", "重新分配", "减重"] },
+    "fortune": { "upright": "shadow", "reversed": "good" },
+    "text": {
+      "upright": "你扛的东西已经超过一个人该扛的分量。先列出全部负担，把可以交出去、可以延后、可以取消的各挑一件，今天就减重。",
+      "reversed": "你终于愿意放下一些了，这是转机。把责任重新分配，明确告诉别人你需要什么；轻装之后，路会突然好走很多。"
+    }
+  },
+  {
+    "id": "wands-11",
+    "arcana": "minor",
+    "suit": "wands",
+    "rank": 11,
+    "name": "权杖侍从",
+    "nameEn": "Page of Wands",
+    "keywords": { "upright": ["好奇", "试水", "新消息"], "reversed": ["三分钟热", "分散", "先交小样"] },
+    "fortune": { "upright": "good", "reversed": "neutral" },
+    "text": {
+      "upright": "心里有个念头在蹦，别急着把它做成大计划。先用最小的成本试一次，收集真实反馈，好奇心会带你找到下一步。",
+      "reversed": "热情来得快也散得快，你可能同时开了太多头。挑一个最想做的，把它做到能拿出手的程度，再决定要不要继续。"
+    }
+  },
+  {
+    "id": "wands-12",
+    "arcana": "minor",
+    "suit": "wands",
+    "rank": 12,
+    "name": "权杖骑士",
+    "nameEn": "Knight of Wands",
+    "keywords": { "upright": ["行动力", "冒险", "热情"], "reversed": ["冲动", "半途而废", "减速"] },
+    "fortune": { "upright": "good", "reversed": "shadow" },
+    "text": {
+      "upright": "现在适合行动，你的冲劲就是资源。出发前花十分钟确认方向和底线，然后放手去做，别让犹豫磨掉这股劲。",
+      "reversed": "你的冲劲是真的，但速度太快容易撞墙。先降一档，补上跳过的验证环节；确定不是一时兴起，再全速前进。"
+    }
+  },
+  {
+    "id": "wands-13",
+    "arcana": "minor",
+    "suit": "wands",
+    "rank": 13,
+    "name": "权杖王后",
+    "nameEn": "Queen of Wands",
+    "keywords": { "upright": ["自信", "感染力", "主导"], "reversed": ["燃尽", "比较心", "先照顾自己"] },
+    "fortune": { "upright": "good", "reversed": "shadow" },
+    "text": {
+      "upright": "你的自信会感染人，今天适合站到前面把事推起来。注意把光也分给同行的人，团队愿意跟，你的火才烧得久。",
+      "reversed": "你把太多力气用来证明自己，反而耗空了。先关掉比较的开关，做一件只为自己开心的事，火会自己回来。"
+    }
+  },
+  {
+    "id": "wands-14",
+    "arcana": "minor",
+    "suit": "wands",
+    "rank": 14,
+    "name": "权杖国王",
+    "nameEn": "King of Wands",
+    "keywords": { "upright": ["愿景", "决断", "领导"], "reversed": ["独断", "急躁", "听意见"] },
+    "fortune": { "upright": "good", "reversed": "shadow" },
+    "text": {
+      "upright": "你有能力定方向，也有资格拍板。把愿景讲成一句别人听得懂的话，给出第一步，然后带头去做，跟随者需要看见行动。",
+      "reversed": "你的决断可能太急，听不进不同意见。刻意找一个反对者把话说完，再决定；慢半步的决断，往往少走很多弯路。"
+    }
+  }
+]
