@@ -4,6 +4,11 @@
   "private": true,
   "type": "module",
   "description": "肥鱼塔罗：哥特风三牌塔罗，写下为谁求问与所问何事，抽牌并获得针对此事的断言。",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZakChin/feiyu-tarot.git"
+  },
+  "homepage": "https://github.com/ZakChin/feiyu-tarot#readme",
   "exports": {
     ".": "./index.js",
     "./client": "./client.js",

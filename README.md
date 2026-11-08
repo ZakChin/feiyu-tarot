@@ -1,5 +1,7 @@
 # 肥鱼塔罗 · Feiyu Tarot
 
+仓库：<https://github.com/ZakChin/feiyu-tarot>
+
 一个运行在 DeepSeek Harness Web 界面里的哥特风塔罗插件：侧边栏点开「肥鱼塔罗」，写下**为谁求问**与**所问何事**，抽三张牌（过去 / 现在 / 未来），得到针对这个问题的断言、牌面解读与两条可执行建议。
 
 ## 功能
@@ -34,7 +36,7 @@ plugin_manager action: install_bundle, target: <解压后的绝对路径>\feiyu-
 仓库发布后，朋友的 DSH 可以直接从仓库安装：
 
 ```
-plugin_manager action: install_bundle, target: github:<用户名>/feiyu-tarot
+plugin_manager action: install_bundle, target: github:ZakChin/feiyu-tarot
 ```
 
 DSH 在安装 GitHub 仓库前会先执行 `git ls-remote`，所以对方机器需要有可用的 `git`。如果对方没有 git，也可以下载仓库 ZIP、解压后按 `INSTALL.md` 做本地安装。
