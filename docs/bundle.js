@@ -966,14 +966,11 @@ const STING_EVENTS = {
   ],
   // The Empress: warm guitar and cello, with a hummed upper line.
   'major-3': [
-    { key: 'guitar_1', at: 0, gain: 0.28, dur: 1.4 },
-    piano(0.1, 60, 0.16, 0.8),
-    piano(0.3, 64, 0.15, 0.8),
-    piano(0.5, 67, 0.15, 1.0),
-    celloNote(0, 48, 0.2, 3.2, { lowpass: 3200 }),
-    voice(1.0, 72, 0.11, 1.6, { lowpass: 4200 }),
-    bellNote(2.6, 84, 0.1, 1.2),
-    piano(3.4, 55, 0.13, 1.2)
+    { key: 'guitar_1', at: 0, gain: 0.3, dur: 1.6 },
+    { key: 'guitar_2', at: 0.9, gain: 0.25, dur: 1.6 },
+    { key: 'guitar_1', at: 1.8, gain: 0.24, dur: 1.6 },
+    { key: 'guitar_2', at: 2.7, gain: 0.22, dur: 1.6 },
+    { key: 'guitar_1', at: 3.6, gain: 0.2, dur: 1.4 }
   ],
   // The Emperor: a throat-singing drone, a slow pulse, and a low bell.
   'major-4': [
@@ -1023,25 +1020,30 @@ const STING_EVENTS = {
   ],
   // Strength: a low cello line under a voice climbing out of the dark.
   'major-8': [
-    celloNote(0, 48, 0.2, 3.4, { lowpass: 2200 }),
-    voice(1.0, 64, 0.14, 1.2),
-    voice(1.8, 67, 0.14, 1.2),
-    voice(2.6, 72, 0.13, 1.4),
-    bellNote(3.8, 79, 0.12, 1.0)
+    { key: 'bell_2', at: 0, gain: 0.22, dur: 0.35, rate: 1.5 },
+    { key: 'chain', at: 0, gain: 0.2, dur: 0.25 },
+    { key: 'bell_2', at: 0.75, gain: 0.24, dur: 0.35, rate: 1.38 },
+    { key: 'chain', at: 0.75, gain: 0.21, dur: 0.25 },
+    { key: 'bell_2', at: 1.5, gain: 0.24, dur: 0.4, rate: 1.26 },
+    { key: 'chain', at: 1.5, gain: 0.21, dur: 0.3 },
+    voice(2.3, 40, 0.22, 1.9, { rate: 0.55, lowpass: 1200, attack: 0.08 }),
+    voice(2.34, 43, 0.16, 1.9, { rate: 0.58, lowpass: 900, attack: 0.1 }),
+    { key: 'drum_low', at: 2.3, gain: 0.32, dur: 0.5 }
   ],
   // The Hermit: The Swan, carried by solo cello over a soft piano figure.
   'major-9': [
-    celloNote(0, 67, 0.24, 1.0, { lowpass: 3200 }),
-    celloNote(0.65, 66, 0.24, 1.0, { lowpass: 3200 }),
-    celloNote(1.3, 64, 0.24, 1.0, { lowpass: 3200 }),
-    celloNote(1.95, 62, 0.24, 1.0, { lowpass: 3200 }),
-    celloNote(2.6, 60, 0.24, 1.0, { lowpass: 3200 }),
-    celloNote(3.25, 59, 0.22, 1.0, { lowpass: 3200 }),
-    celloNote(3.9, 57, 0.22, 1.2, { lowpass: 3200 }),
-    piano(0, 43, 0.12, 2.0),
-    piano(1.2, 50, 0.1, 2.0),
-    piano(2.4, 47, 0.09, 2.0),
-    bellNote(4.8, 79, 0.08, 1.0)
+    celloNote(0, 71, 0.24, 1.0, { lowpass: 3200 }),
+    celloNote(1.0, 69, 0.23, 0.45, { lowpass: 3200 }),
+    celloNote(1.45, 67, 0.23, 0.45, { lowpass: 3200 }),
+    celloNote(1.9, 66, 0.22, 0.45, { lowpass: 3200 }),
+    celloNote(2.4, 74, 0.23, 1.0, { lowpass: 3200 }),
+    celloNote(3.4, 72, 0.22, 0.45, { lowpass: 3200 }),
+    celloNote(3.85, 71, 0.22, 0.45, { lowpass: 3200 }),
+    celloNote(4.3, 69, 0.21, 0.45, { lowpass: 3200 }),
+    celloNote(4.8, 67, 0.22, 1.3, { lowpass: 3200 }),
+    piano(0, 43, 0.1, 3.0),
+    piano(2.4, 50, 0.08, 3.0),
+    bellNote(6.0, 79, 0.06, 0.8)
   ],
   // The Wheel: Beethoven's Fifth motif, stretched into a question and answer.
   'major-10': [
@@ -1068,26 +1070,27 @@ const STING_EVENTS = {
   ],
   // The Hanged Man: a sorrowful soprano falling a semitone at a time.
   'major-12': [
-    voice(0, 81, 0.16, 1.2, { rateEnd: 0.92, lowpass: 5200 }),
-    voice(0.7, 80, 0.15, 1.2, { rateEnd: 0.92, lowpass: 5200 }),
-    voice(1.4, 78, 0.14, 1.2, { rateEnd: 0.92, lowpass: 5000 }),
-    voice(2.1, 76, 0.14, 1.4, { rateEnd: 0.9, lowpass: 5000 }),
-    voice(2.8, 74, 0.13, 1.6, { rateEnd: 0.88, lowpass: 4800 }),
-    celloNote(0, 48, 0.16, 4.2, { lowpass: 1600 }),
-    bellNote(4.2, 74, 0.08, 1.0)
+    voice(0, 81, 0.15, 1.3, { lowpass: 5200 }),
+    voice(1.1, 80, 0.14, 1.3, { lowpass: 5200 }),
+    voice(2.2, 78, 0.13, 1.3, { lowpass: 5000 }),
+    voice(3.3, 76, 0.13, 1.5, { lowpass: 5000 }),
+    voice(4.5, 74, 0.12, 1.8, { lowpass: 4800 }),
+    celloNote(0, 48, 0.14, 4.8, { lowpass: 1600 }),
+    bellNote(5.8, 74, 0.07, 0.9)
   ],
   // Death: the Adagio cantabile of the Pathétique, played as a slow piano melody.
   'major-13': [
-    piano(0, 68, 0.2, 0.7, { lowpass: 2800 }),
-    piano(0.6, 70, 0.2, 0.7, { lowpass: 2800 }),
-    piano(1.2, 72, 0.2, 0.8, { lowpass: 2800 }),
-    piano(1.8, 70, 0.18, 0.7, { lowpass: 2800 }),
-    piano(2.4, 68, 0.18, 0.9, { lowpass: 2800 }),
-    piano(3.0, 63, 0.16, 0.8, { lowpass: 2600 }),
-    piano(3.6, 68, 0.17, 1.2, { lowpass: 2600 }),
-    piano(0, 44, 0.12, 2.4, { lowpass: 1400 }),
-    piano(0, 51, 0.1, 2.4, { lowpass: 1400 }),
-    bellNote(4.6, 75, 0.07, 1.0)
+    piano(0, 68, 0.2, 1.0, { lowpass: 2800 }),
+    piano(0.9, 72, 0.19, 0.8, { lowpass: 2800 }),
+    piano(1.8, 75, 0.18, 0.45, { lowpass: 2800 }),
+    piano(2.25, 73, 0.18, 0.45, { lowpass: 2800 }),
+    piano(2.7, 72, 0.18, 0.45, { lowpass: 2800 }),
+    piano(3.15, 70, 0.19, 1.2, { lowpass: 2800 }),
+    piano(4.35, 68, 0.18, 1.2, { lowpass: 2600 }),
+    piano(0, 44, 0.12, 2.6, { lowpass: 1400 }),
+    piano(0, 51, 0.1, 2.6, { lowpass: 1400 }),
+    piano(2.7, 49, 0.1, 2.4, { lowpass: 1400 }),
+    celloNote(0, 44, 0.1, 5.2, { lowpass: 1200 })
   ],
   // Temperance: flute and piano water, rising and falling without hurry.
   'major-14': [
@@ -1105,17 +1108,13 @@ const STING_EVENTS = {
   ],
   // The Devil: an original dark cello chaconne, half-steps and a tritone.
   'major-15': [
-    celloNote(0, 38, 0.24, 0.9, { lowpass: 700 }),
-    celloNote(0.8, 39, 0.23, 0.9, { lowpass: 700 }),
-    celloNote(1.6, 40, 0.23, 0.9, { lowpass: 720 }),
-    celloNote(2.4, 41, 0.22, 1.0, { lowpass: 720 }),
-    celloNote(3.2, 40, 0.2, 0.9, { lowpass: 700 }),
-    celloNote(4.0, 38, 0.2, 1.4, { lowpass: 680 }),
-    piano(0, 38, 0.14, 3.0, { lowpass: 500 }),
-    piano(0, 44, 0.08, 3.0, { lowpass: 500 }),
-    { key: 'drum_low', at: 0, gain: 0.24, dur: 0.4 },
-    { key: 'drum_low', at: 2.0, gain: 0.22, dur: 0.4 },
-    { key: 'drum_low', at: 4.0, gain: 0.22, dur: 0.4 }
+    celloNote(0, 48, 0.26, 2.2, { lowpass: 2400, attack: 0.12 }),
+    celloNote(0.05, 55, 0.18, 2.2, { lowpass: 2400, attack: 0.12 }),
+    celloNote(2.2, 55, 0.25, 2.0, { lowpass: 2400, attack: 0.1 }),
+    celloNote(2.25, 60, 0.17, 2.0, { lowpass: 2400, attack: 0.1 }),
+    celloNote(4.2, 60, 0.24, 2.2, { lowpass: 2600, attack: 0.08 }),
+    celloNote(4.25, 64, 0.16, 2.2, { lowpass: 2600, attack: 0.08 }),
+    celloNote(4.3, 67, 0.12, 2.2, { lowpass: 2800, attack: 0.08 })
   ],
   // The Tower: a thundercloud rumble under the strike, then a low piano cluster.
   'major-16': [
@@ -1183,11 +1182,22 @@ const STING_EVENTS = {
   ],
   // Judgement: a choir rising in stacked triads, answered by a bell.
   'major-20': [
-    ...chord(0, [60, 64, 67], 0.11, 1.0, { lowpass: 5000 }),
-    ...chord(1.0, [62, 66, 69], 0.1, 1.0, { lowpass: 5000 }),
-    ...chord(2.0, [64, 68, 71], 0.1, 1.0, { lowpass: 5000 }),
-    ...chord(3.0, [67, 71, 74], 0.11, 1.4, { lowpass: 5000 }),
-    bellNote(4.0, 84, 0.1, 1.2)
+    { key: 'bell_1', at: 0, gain: 0.32, dur: 3.2, rate: 0.34, lowpass: 1200, attack: 0.004 },
+    { key: 'bell_2', at: 0, gain: 0.11, dur: 2.6, rate: 0.5, lowpass: 1600 },
+    { key: 'drum_low', at: 0, gain: 0.3, dur: 0.5 },
+    piano(0, 36, 0.16, 2.6, { lowpass: 800 }),
+    { key: 'bell_1', at: 1.55, gain: 0.3, dur: 3.2, rate: 0.335, lowpass: 1150, attack: 0.004 },
+    { key: 'bell_2', at: 1.55, gain: 0.1, dur: 2.6, rate: 0.495, lowpass: 1550 },
+    { key: 'drum_low', at: 1.55, gain: 0.28, dur: 0.5 },
+    piano(1.55, 36, 0.15, 2.6, { lowpass: 800 }),
+    { key: 'bell_1', at: 3.1, gain: 0.3, dur: 3.2, rate: 0.33, lowpass: 1150, attack: 0.004 },
+    { key: 'bell_2', at: 3.1, gain: 0.1, dur: 2.6, rate: 0.49, lowpass: 1550 },
+    { key: 'drum_low', at: 3.1, gain: 0.28, dur: 0.5 },
+    piano(3.1, 36, 0.15, 2.6, { lowpass: 800 }),
+    { key: 'bell_1', at: 4.65, gain: 0.32, dur: 2.4, rate: 0.325, lowpass: 1200, attack: 0.004 },
+    { key: 'bell_2', at: 4.65, gain: 0.11, dur: 2.0, rate: 0.485, lowpass: 1600 },
+    { key: 'drum_low', at: 4.65, gain: 0.3, dur: 0.55 },
+    piano(4.65, 36, 0.17, 2.2, { lowpass: 800 })
   ],
   // The World: an a cappella chord climbing into a long final harmony.
   'major-21': [
@@ -1213,19 +1223,19 @@ const STING_DURATIONS = {
   'major-5': 5.4,
   'major-6': 4.8,
   'major-7': 4.6,
-  'major-8': 5.0,
-  'major-9': 6.2,
+  'major-8': 4.6,
+  'major-9': 6.6,
   'major-10': 5.2,
   'major-11': 4.2,
-  'major-12': 5.8,
-  'major-13': 5.6,
+  'major-12': 6.6,
+  'major-13': 5.8,
   'major-14': 4.8,
-  'major-15': 6.0,
+  'major-15': 6.8,
   'major-16': 5.8,
   'major-17': 6.8,
   'major-18': 6.2,
   'major-19': 4.8,
-  'major-20': 5.4,
+  'major-20': 7.0,
   'major-21': 6.5
 };
 
