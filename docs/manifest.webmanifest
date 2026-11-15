@@ -1,0 +1,17 @@
+{
+  "name": "肥鱼塔罗",
+  "short_name": "肥鱼塔罗",
+  "description": "每日三牌、命运底色、360° 牌库",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#07050c",
+  "theme_color": "#07050c",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
