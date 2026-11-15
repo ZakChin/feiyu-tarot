@@ -5,7 +5,7 @@
   const ReactDOM = window.ReactDOM;
   const h = React.createElement;
   const SITE_URL = "https://zakchin.github.io/feiyu-tarot/";
-  const { CARDS, CARD_ART, TOPICS, FATE, DICTS, SAMPLE_AUDIO } = window.__FEIYU_DATA__;
+  const { CARDS, CARD_ART, TOPICS, FATE, DICTS, SAMPLE_AUDIO, FATE_AUDIO } = window.__FEIYU_DATA__;
 
 /** Small interpolation helpers shared by the panel. */
 
@@ -77,6 +77,64 @@ async function loadSampleBuffer(key) {
     });
   samplePending.set(key, pending);
   return pending;
+}
+
+const fateBuffers = new Map();
+const fatePending = new Map();
+
+async function loadFateBuffer(cardId) {
+  if (typeof FATE_AUDIO === 'undefined' || !FATE_AUDIO[cardId]) return null;
+  const key = 'fate:' + cardId;
+  if (sampleBuffers.has(key)) return sampleBuffers.get(key);
+  if (fatePending.has(key)) return fatePending.get(key);
+  const context = audioContext();
+  if (!context) return null;
+  const track = FATE_AUDIO[cardId];
+  const pending = fetchSampleBytes(track.data || track.src)
+    .then((bytes) => context.decodeAudioData(bytes.buffer))
+    .then((buffer) => {
+      sampleBuffers.set(key, buffer);
+      fateBuffers.set(cardId, buffer);
+      fatePending.delete(key);
+      return buffer;
+    })
+    .catch(() => {
+      fatePending.delete(key);
+      return null;
+    });
+  fatePending.set(key, pending);
+  return pending;
+}
+
+function preloadFateTheme(cardId) {
+  return loadFateBuffer(cardId);
+}
+
+/** Play a full Major Arcana theme with a soft start and a long final fade. */
+function playFateTheme(cardId, options) {
+  const settings = options || {};
+  const buffer = sampleBuffers.get('fate:' + cardId);
+  if (!buffer) return null;
+  return playSample('fate:' + cardId, {
+    gain: settings.gain === undefined ? 0.62 : settings.gain,
+    attack: settings.attack === undefined ? 0.6 : settings.attack,
+    release: settings.release === undefined ? 1.4 : settings.release,
+    dur: Math.max(1, buffer.duration - 0.04)
+  });
+}
+
+/** Start a fate theme as soon as its track is decoded; returns a stop function. */
+function playFateThemeWhenReady(cardId, options) {
+  let cancelled = false;
+  let handle = null;
+  loadFateBuffer(cardId).then(() => {
+    if (cancelled) return;
+    handle = playFateTheme(cardId, options);
+  });
+  return function stopFateTheme() {
+    cancelled = true;
+    if (handle) handle.stop();
+  };
 }
 
 async function preloadSamples(keys) {
@@ -7771,8 +7829,11 @@ function FateScreen({ t, localeId, soundOn, onPotion, onShare }) {
   const stopsRef = React.useRef([]);
   const resultTimer = React.useRef(0);
   const flashTimer = React.useRef(0);
+  const fateThemeTimer = React.useRef(0);
+  const FATE_THEME_DELAY = 1800;
 
   function stopAll() {
+    window.clearTimeout(fateThemeTimer.current);
     stopsRef.current.forEach((stop) => {
       try {
         stop();
@@ -7788,6 +7849,7 @@ function FateScreen({ t, localeId, soundOn, onPotion, onShare }) {
       stopAll();
       window.clearTimeout(resultTimer.current);
       window.clearTimeout(flashTimer.current);
+      window.clearTimeout(fateThemeTimer.current);
     },
     []
   );
@@ -7824,15 +7886,22 @@ function FateScreen({ t, localeId, soundOn, onPotion, onShare }) {
     ];
   }
 
+  function scheduleFateTheme(cardId) {
+    window.clearTimeout(fateThemeTimer.current);
+    if (!soundOn) return;
+    fateThemeTimer.current = window.setTimeout(() => {
+      stopAll();
+      const stop = playFateThemeWhenReady(cardId, { gain: 0.62 });
+      if (stop) stopsRef.current.push(stop);
+    }, FATE_THEME_DELAY);
+  }
+
   function reveal(cardId) {
     setRevealed(true);
     setFlash(true);
     window.clearTimeout(flashTimer.current);
     flashTimer.current = window.setTimeout(() => setFlash(false), 780);
-    if (soundOn) {
-      stopAll();
-      stopsRef.current = [playMajorSting(cardId)];
-    }
+    if (soundOn) scheduleFateTheme(cardId);
     window.clearTimeout(resultTimer.current);
     resultTimer.current = window.setTimeout(() => setView('result'), 1150);
   }
@@ -7862,13 +7931,7 @@ function FateScreen({ t, localeId, soundOn, onPotion, onShare }) {
     }
     if (prefersReduced()) {
       setRevealed(true);
-      if (soundOn) {
-        window.setTimeout(() => {
-          if (!stopsRef.current.length) return;
-          stopAll();
-          stopsRef.current = [playMajorSting(next.cardId)];
-        }, 700);
-      }
+      scheduleFateTheme(next.cardId);
       resultTimer.current = window.setTimeout(() => setView('result'), 1400);
     } else {
       setStorming(true);
