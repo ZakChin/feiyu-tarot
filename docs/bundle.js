@@ -99,11 +99,28 @@ function playSample(key, options) {
     if (context.state === 'suspended') context.resume();
     const source = context.createBufferSource();
     source.buffer = buffer;
-    source.playbackRate.value = Math.max(0.25, Math.min(4, settings.rate || 1));
+    const at = context.currentTime + Math.max(0, settings.at || 0);
+    const startRate = Math.max(0.25, Math.min(4, settings.rate || 1));
+    source.playbackRate.setValueAtTime(startRate, at);
+    if (settings.loop) {
+      source.loop = true;
+      source.loopStart = 0;
+      source.loopEnd = buffer.duration;
+    }
+    const duration = settings.dur
+      ? settings.loop
+        ? settings.dur
+        : Math.min(settings.dur, buffer.duration)
+      : undefined;
+    if (settings.rateEnd) {
+      const endRate = Math.max(0.25, Math.min(4, settings.rateEnd));
+      source.playbackRate.exponentialRampToValueAtTime(
+        endRate,
+        at + (duration || buffer.duration)
+      );
+    }
     const gain = context.createGain();
     const peak = Math.max(0.0001, settings.gain === undefined ? 0.5 : settings.gain);
-    const at = context.currentTime + Math.max(0, settings.at || 0);
-    const duration = settings.dur ? Math.min(settings.dur, buffer.duration) : undefined;
     const attack = settings.attack === undefined ? 0.008 : settings.attack;
     const release = settings.release === undefined ? 0.08 : settings.release;
     gain.gain.setValueAtTime(0.0001, at);
@@ -846,191 +863,370 @@ function rateFor(key, midi) {
   return Math.pow(2, (midi - root) / 12);
 }
 
-function voice(at, midi, gain, dur) {
-  const key = midi >= 72 ? 'voice_fs5' : 'voice_a3';
-  return { key, at, gain, dur, rate: rateFor(key, midi) };
+function voice(at, midi, gain, dur, extra) {
+  let key = 'voice_a3';
+  if (midi >= 72) key = 'voice_fs5';
+  else if (midi >= 64) key = 'voice_cs4';
+  return Object.assign({ key, at, gain, dur, rate: rateFor(key, midi) }, extra || {});
 }
 
-function piano(at, midi, gain, dur) {
+function piano(at, midi, gain, dur, extra) {
   let key = 'piano_mid';
   if (midi < 45) key = 'piano_low';
   else if (midi > 76) key = 'piano_high';
-  return { key, at, gain, dur, rate: rateFor(key, midi) };
+  return Object.assign({ key, at, gain, dur, rate: rateFor(key, midi) }, extra || {});
 }
 
-function chord(at, midis, gain, dur) {
-  return midis.map((midi) => voice(at, midi, gain, dur));
+function chord(at, midis, gain, dur, extra) {
+  return midis.map((midi) => voice(at, midi, gain, dur, extra));
+}
+
+function fluteNote(at, midi, gain, dur, extra) {
+  return Object.assign(
+    { key: 'flute', at, gain, dur, rate: Math.pow(2, (midi - 72) / 12) },
+    extra || {}
+  );
+}
+
+function celloNote(at, midi, gain, dur, extra) {
+  return Object.assign(
+    { key: 'cello', at, gain, dur, rate: Math.pow(2, (midi - 48) / 12), lowpass: 3600 },
+    extra || {}
+  );
+}
+
+function bellNote(at, midi, gain, dur, extra) {
+  return Object.assign(
+    { key: midi >= 84 ? 'bell_2' : 'bell_1', at, gain, dur, rate: Math.pow(2, (midi - 72) / 12) },
+    extra || {}
+  );
+}
+
+function rumble(at, gain, dur) {
+  return {
+    key: 'explosion',
+    at,
+    gain,
+    dur,
+    rate: 0.32,
+    loop: true,
+    lowpass: 150,
+    attack: 0.8,
+    release: 1.2
+  };
+}
+
+function drone(at, midi, gain, dur, extra) {
+  return Object.assign(
+    { key: 'voice_a3', at, gain, dur, rate: Math.max(0.25, rateFor('voice_a3', midi)), loop: true, lowpass: 600 },
+    extra || {}
+  );
 }
 
 const STING_EVENTS = {
+  // The Fool: a circus calliope piping a jaunty C-E-G-E-C tune over an oom-pah bass.
   'major-0': [
-    { key: 'guitar_1', at: 0, gain: 0.55, dur: 0.9 },
-    { key: 'bell_1', at: 0.18, gain: 0.22, dur: 0.8 },
-    piano(0.3, 76, 0.2, 0.5)
+    fluteNote(0, 72, 0.26, 0.5),
+    fluteNote(0.4, 76, 0.24, 0.5),
+    fluteNote(0.8, 79, 0.24, 0.55),
+    fluteNote(1.2, 76, 0.22, 0.45),
+    fluteNote(1.6, 72, 0.22, 0.45),
+    fluteNote(2.0, 79, 0.2, 0.5),
+    fluteNote(2.4, 84, 0.18, 0.7),
+    piano(0, 48, 0.18, 0.45),
+    piano(0.4, 55, 0.14, 0.45),
+    piano(0.8, 48, 0.14, 0.45),
+    piano(1.2, 55, 0.12, 0.45),
+    piano(1.6, 48, 0.12, 0.45),
+    piano(2.0, 55, 0.12, 0.45),
+    { key: 'drum_low', at: 2.4, gain: 0.18, dur: 0.3 },
+    bellNote(3.0, 84, 0.12, 1.0)
   ],
+  // The Magician: a rising piano arpeggio and a bright bell, like a trick landing.
   'major-1': [
-    piano(0, 60, 0.26, 0.5),
-    piano(0.09, 64, 0.24, 0.5),
-    piano(0.18, 67, 0.24, 0.5),
-    piano(0.27, 72, 0.22, 0.7),
-    { key: 'bell_2', at: 0.45, gain: 0.2, dur: 0.7 }
+    piano(0, 60, 0.22, 0.6),
+    piano(0.12, 64, 0.2, 0.6),
+    piano(0.24, 67, 0.2, 0.6),
+    piano(0.36, 71, 0.18, 0.7),
+    piano(0.48, 72, 0.18, 0.9),
+    bellNote(0.7, 84, 0.12, 1.0),
+    piano(1.2, 72, 0.16, 0.5),
+    piano(1.32, 67, 0.15, 0.5),
+    piano(1.44, 64, 0.14, 0.5),
+    piano(1.56, 60, 0.14, 0.8),
+    bellNote(2.2, 88, 0.09, 1.2)
   ],
+  // The High Priestess: a low drone, a distant bell, and a single quiet voice.
   'major-2': [
-    ...chord(0, [50, 53, 57], 0.15, 1.8),
-    { key: 'bell_1', at: 0.4, gain: 0.22, dur: 1.0 },
-    piano(0.2, 38, 0.2, 1.2)
+    drone(0, 45, 0.16, 4.6, { lowpass: 700 }),
+    bellNote(0.2, 81, 0.16, 1.3),
+    voice(0.8, 57, 0.12, 1.8, { lowpass: 1800 }),
+    bellNote(2.4, 88, 0.09, 1.6),
+    piano(3.4, 33, 0.13, 1.4)
   ],
+  // The Empress: warm guitar and cello, with a hummed upper line.
   'major-3': [
-    { key: 'guitar_2', at: 0, gain: 0.45, dur: 1.2 },
-    ...chord(0.1, [60, 64, 67], 0.13, 1.4),
-    { key: 'bell_2', at: 0.6, gain: 0.16, dur: 0.7 }
+    { key: 'guitar_1', at: 0, gain: 0.28, dur: 1.4 },
+    piano(0.1, 60, 0.16, 0.8),
+    piano(0.3, 64, 0.15, 0.8),
+    piano(0.5, 67, 0.15, 1.0),
+    celloNote(0, 48, 0.2, 3.2, { lowpass: 3200 }),
+    voice(1.0, 72, 0.11, 1.6, { lowpass: 4200 }),
+    bellNote(2.6, 84, 0.1, 1.2),
+    piano(3.4, 55, 0.13, 1.2)
   ],
+  // The Emperor: a throat-singing drone, a slow pulse, and a low bell.
   'major-4': [
-    { key: 'drum_low', at: 0, gain: 0.55, dur: 0.4 },
-    piano(0, 48, 0.3, 0.6),
-    piano(0, 55, 0.24, 0.6),
-    piano(0.24, 55, 0.28, 0.6),
-    piano(0.24, 62, 0.22, 0.6),
-    { key: 'drum_low2', at: 0.9, gain: 0.5, dur: 0.4 }
+    drone(0, 33, 0.2, 5.2, { lowpass: 380 }),
+    drone(0.1, 40, 0.14, 5.0, { lowpass: 450 }),
+    celloNote(0, 36, 0.18, 4.0, { lowpass: 800 }),
+    { key: 'drum_low', at: 0, gain: 0.28, dur: 0.4 },
+    { key: 'drum_low', at: 1.6, gain: 0.24, dur: 0.4 },
+    { key: 'drum_low', at: 3.2, gain: 0.26, dur: 0.4 },
+    bellNote(4.6, 45, 0.1, 1.2)
   ],
+  // The Hierophant: organ-like low chords, a choir, and a church bell.
   'major-5': [
-    ...chord(0, [48, 52, 55], 0.15, 1.6),
-    { key: 'bell_1', at: 0.3, gain: 0.24, dur: 1.2 },
-    { key: 'bell_2', at: 1.0, gain: 0.12, dur: 0.9 }
+    piano(0, 36, 0.18, 2.4),
+    piano(0, 43, 0.13, 2.4),
+    ...chord(0.2, [60, 64, 67], 0.09, 2.2, { lowpass: 3200 }),
+    bellNote(0.8, 72, 0.12, 1.4),
+    piano(2.4, 48, 0.16, 2.0),
+    piano(2.4, 55, 0.12, 2.0),
+    ...chord(2.6, [60, 65, 69], 0.08, 1.8, { lowpass: 3200 }),
+    bellNote(4.4, 84, 0.1, 1.2)
   ],
+  // The Lovers: two voices chase each other in sixths, then settle together.
   'major-6': [
-    ...chord(0, [60, 64, 67], 0.13, 1.4),
-    { key: 'guitar_1', at: 0.35, gain: 0.4, dur: 1.0 },
-    piano(0.5, 72, 0.2, 0.5)
+    voice(0, 64, 0.18, 0.8),
+    voice(0.35, 67, 0.17, 0.8),
+    voice(0.7, 69, 0.17, 0.8),
+    voice(1.05, 72, 0.15, 1.0),
+    voice(1.8, 67, 0.15, 1.0),
+    voice(2.15, 71, 0.14, 1.0),
+    ...chord(2.6, [72, 76], 0.11, 1.8, { lowpass: 4500 }),
+    celloNote(0, 48, 0.12, 3.6, { lowpass: 2400 })
   ],
+  // The Chariot: a three-beat drum gallop and a rising cello figure.
   'major-7': [
-    { key: 'drum_low', at: 0, gain: 0.6, dur: 0.35 },
-    { key: 'drum_low', at: 0.18, gain: 0.55, dur: 0.35 },
-    { key: 'drum_low2', at: 0.36, gain: 0.55, dur: 0.35 },
-    { key: 'conga', at: 0.5, gain: 0.3, dur: 0.3 },
-    piano(0.5, 55, 0.28, 0.9),
-    piano(0.5, 62, 0.22, 0.9)
+    { key: 'drum_low', at: 0, gain: 0.24, dur: 0.3 },
+    { key: 'drum_low', at: 0.28, gain: 0.22, dur: 0.3 },
+    { key: 'drum_low', at: 0.56, gain: 0.26, dur: 0.3 },
+    celloNote(0, 50, 0.18, 0.7, { lowpass: 2600 }),
+    celloNote(0.7, 57, 0.18, 0.7, { lowpass: 2800 }),
+    celloNote(1.4, 62, 0.18, 0.8, { lowpass: 3000 }),
+    piano(1.8, 62, 0.15, 0.8),
+    piano(1.95, 66, 0.14, 0.8),
+    piano(2.1, 69, 0.14, 1.0),
+    { key: 'drum_low', at: 3.0, gain: 0.22, dur: 0.3 },
+    bellNote(3.4, 74, 0.1, 1.0)
   ],
+  // Strength: a low cello line under a voice climbing out of the dark.
   'major-8': [
-    { key: 'cello', at: 0, gain: 0.4, dur: 1.3 },
-    { key: 'drum_low', at: 0.2, gain: 0.35, dur: 0.4 },
-    ...chord(0.8, [52, 56, 59], 0.12, 1.0),
-    piano(1.1, 76, 0.18, 0.6)
+    celloNote(0, 48, 0.2, 3.4, { lowpass: 2200 }),
+    voice(1.0, 64, 0.14, 1.2),
+    voice(1.8, 67, 0.14, 1.2),
+    voice(2.6, 72, 0.13, 1.4),
+    bellNote(3.8, 79, 0.12, 1.0)
   ],
+  // The Hermit: The Swan, carried by solo cello over a soft piano figure.
   'major-9': [
-    { key: 'bell_2', at: 0, gain: 0.22, dur: 0.8 },
-    piano(0, 47, 0.22, 1.4),
-    piano(0.7, 59, 0.14, 0.5),
-    { key: 'bell_1', at: 1.2, gain: 0.1, dur: 0.8 }
+    celloNote(0, 67, 0.24, 1.0, { lowpass: 3200 }),
+    celloNote(0.65, 66, 0.24, 1.0, { lowpass: 3200 }),
+    celloNote(1.3, 64, 0.24, 1.0, { lowpass: 3200 }),
+    celloNote(1.95, 62, 0.24, 1.0, { lowpass: 3200 }),
+    celloNote(2.6, 60, 0.24, 1.0, { lowpass: 3200 }),
+    celloNote(3.25, 59, 0.22, 1.0, { lowpass: 3200 }),
+    celloNote(3.9, 57, 0.22, 1.2, { lowpass: 3200 }),
+    piano(0, 43, 0.12, 2.0),
+    piano(1.2, 50, 0.1, 2.0),
+    piano(2.4, 47, 0.09, 2.0),
+    bellNote(4.8, 79, 0.08, 1.0)
   ],
+  // The Wheel: Beethoven's Fifth motif, stretched into a question and answer.
   'major-10': [
-    piano(0, 55, 0.3, 0.3),
-    piano(0.22, 55, 0.3, 0.3),
-    piano(0.44, 55, 0.3, 0.3),
-    piano(0.66, 51, 0.32, 0.7),
-    { key: 'drum_low', at: 0, gain: 0.45, dur: 0.4 },
-    { key: 'drum_low2', at: 0.66, gain: 0.5, dur: 0.5 }
-  ],
-  'major-11': [
-    { key: 'bell_1', at: 0, gain: 0.3, dur: 0.8 },
-    piano(0, 60, 0.24, 0.8),
-    piano(0, 64, 0.2, 0.8),
-    piano(0.3, 65, 0.2, 0.9),
-    piano(0.3, 69, 0.18, 0.9)
-  ],
-  'major-12': [
-    ...chord(0, [53, 57, 60], 0.13, 1.8),
-    { key: 'cello', at: 0.1, gain: 0.28, dur: 1.4 },
-    { key: 'bell_2', at: 0.8, gain: 0.12, dur: 0.8 }
-  ],
-  'major-13': [
-    { key: 'bell_2', at: 0, gain: 0.28, rate: 0.8, dur: 1.5 },
-    { key: 'cello', at: 0.2, gain: 0.35, dur: 1.3 },
-    { key: 'chain', at: 0.5, gain: 0.28, dur: 0.8 }
-  ],
-  'major-14': [
-    { key: 'flute', at: 0, gain: 0.32, dur: 1.1 },
-    piano(0.1, 60, 0.2, 0.4),
-    piano(0.24, 64, 0.18, 0.4),
-    piano(0.38, 67, 0.18, 0.4),
-    piano(0.52, 72, 0.18, 0.6),
-    { key: 'bell_1', at: 0.9, gain: 0.12, dur: 0.7 }
-  ],
-  'major-15': [
-    { key: 'cello', at: 0, gain: 0.35, rate: 0.9, dur: 1.5 },
-    piano(0, 48, 0.26, 1.2),
-    { key: 'chain', at: 0.4, gain: 0.3, dur: 0.9 },
-    { key: 'drum_low', at: 0.9, gain: 0.35, dur: 0.4 }
-  ],
-  'major-16': [
-    { key: 'explosion', at: 0, gain: 0.55, dur: 0.9 },
-    piano(0, 36, 0.3, 0.8),
-    piano(0, 43, 0.22, 0.8),
-    { key: 'drum_low', at: 0.2, gain: 0.4, dur: 0.5 },
-    { key: 'chain', at: 0.5, gain: 0.16, dur: 0.6 }
-  ],
-  'major-17': [
-    piano(0, 84, 0.22, 0.9),
-    piano(0.12, 79, 0.2, 0.9),
-    piano(0.24, 76, 0.2, 0.9),
-    piano(0.36, 72, 0.2, 1.0),
-    ...chord(0.5, [72, 79, 84], 0.1, 1.4),
-    { key: 'bell_1', at: 0.9, gain: 0.16, dur: 0.9 }
-  ],
-  'major-18': [
-    piano(0, 79, 0.22, 1.0),
-    piano(0.2, 76, 0.2, 1.0),
-    piano(0.4, 72, 0.18, 1.2),
-    { key: 'flute', at: 0.7, gain: 0.2, dur: 1.0 },
-    { key: 'cello', at: 0.2, gain: 0.2, dur: 1.5 }
-  ],
-  'major-19': [
-    ...chord(0, [60, 64, 67, 72], 0.15, 1.5),
-    { key: 'bell_1', at: 0.4, gain: 0.24, dur: 0.9 },
+    piano(0, 55, 0.28, 0.35),
+    piano(0.4, 55, 0.28, 0.35),
+    piano(0.8, 55, 0.28, 0.35),
+    piano(1.2, 51, 0.3, 0.7),
     { key: 'drum_low', at: 0, gain: 0.3, dur: 0.4 },
-    { key: 'bell_2', at: 0.9, gain: 0.12, dur: 0.8 }
+    { key: 'drum_low', at: 1.2, gain: 0.3, dur: 0.4 },
+    piano(2.4, 55, 0.26, 0.35),
+    piano(2.8, 55, 0.26, 0.35),
+    piano(3.2, 55, 0.26, 0.35),
+    piano(3.6, 51, 0.28, 0.9),
+    { key: 'drum_low2', at: 3.6, gain: 0.28, dur: 0.5 }
   ],
+  // Justice: a metallic ring and a balanced perfect fifth.
+  'major-11': [
+    bellNote(0, 84, 0.18, 0.8),
+    piano(0.15, 60, 0.18, 0.8),
+    piano(0.15, 67, 0.15, 0.8),
+    piano(0.9, 65, 0.16, 0.8),
+    piano(0.9, 72, 0.13, 0.8),
+    bellNote(2.0, 91, 0.1, 1.2)
+  ],
+  // The Hanged Man: a sorrowful soprano falling a semitone at a time.
+  'major-12': [
+    voice(0, 81, 0.16, 1.2, { rateEnd: 0.92, lowpass: 5200 }),
+    voice(0.7, 80, 0.15, 1.2, { rateEnd: 0.92, lowpass: 5200 }),
+    voice(1.4, 78, 0.14, 1.2, { rateEnd: 0.92, lowpass: 5000 }),
+    voice(2.1, 76, 0.14, 1.4, { rateEnd: 0.9, lowpass: 5000 }),
+    voice(2.8, 74, 0.13, 1.6, { rateEnd: 0.88, lowpass: 4800 }),
+    celloNote(0, 48, 0.16, 4.2, { lowpass: 1600 }),
+    bellNote(4.2, 74, 0.08, 1.0)
+  ],
+  // Death: the Adagio cantabile of the Pathétique, played as a slow piano melody.
+  'major-13': [
+    piano(0, 68, 0.2, 0.7, { lowpass: 2800 }),
+    piano(0.6, 70, 0.2, 0.7, { lowpass: 2800 }),
+    piano(1.2, 72, 0.2, 0.8, { lowpass: 2800 }),
+    piano(1.8, 70, 0.18, 0.7, { lowpass: 2800 }),
+    piano(2.4, 68, 0.18, 0.9, { lowpass: 2800 }),
+    piano(3.0, 63, 0.16, 0.8, { lowpass: 2600 }),
+    piano(3.6, 68, 0.17, 1.2, { lowpass: 2600 }),
+    piano(0, 44, 0.12, 2.4, { lowpass: 1400 }),
+    piano(0, 51, 0.1, 2.4, { lowpass: 1400 }),
+    bellNote(4.6, 75, 0.07, 1.0)
+  ],
+  // Temperance: flute and piano water, rising and falling without hurry.
+  'major-14': [
+    fluteNote(0, 72, 0.2, 0.5),
+    fluteNote(0.4, 76, 0.18, 0.5),
+    fluteNote(0.8, 79, 0.18, 0.5),
+    fluteNote(1.2, 84, 0.16, 0.6),
+    fluteNote(1.6, 79, 0.16, 0.5),
+    fluteNote(2.0, 76, 0.15, 0.5),
+    piano(0.2, 60, 0.13, 0.8),
+    piano(0.4, 64, 0.12, 0.8),
+    piano(0.6, 67, 0.12, 0.8),
+    piano(0.8, 72, 0.12, 1.0),
+    bellNote(3.0, 84, 0.08, 1.0)
+  ],
+  // The Devil: an original dark cello chaconne, half-steps and a tritone.
+  'major-15': [
+    celloNote(0, 38, 0.24, 0.9, { lowpass: 700 }),
+    celloNote(0.8, 39, 0.23, 0.9, { lowpass: 700 }),
+    celloNote(1.6, 40, 0.23, 0.9, { lowpass: 720 }),
+    celloNote(2.4, 41, 0.22, 1.0, { lowpass: 720 }),
+    celloNote(3.2, 40, 0.2, 0.9, { lowpass: 700 }),
+    celloNote(4.0, 38, 0.2, 1.4, { lowpass: 680 }),
+    piano(0, 38, 0.14, 3.0, { lowpass: 500 }),
+    piano(0, 44, 0.08, 3.0, { lowpass: 500 }),
+    { key: 'drum_low', at: 0, gain: 0.24, dur: 0.4 },
+    { key: 'drum_low', at: 2.0, gain: 0.22, dur: 0.4 },
+    { key: 'drum_low', at: 4.0, gain: 0.22, dur: 0.4 }
+  ],
+  // The Tower: a thundercloud rumble under the strike, then a low piano cluster.
+  'major-16': [
+    rumble(0, 0.18, 5.0),
+    { key: 'explosion', at: 0.6, gain: 0.38, dur: 0.9, lowpass: 900 },
+    piano(0.6, 36, 0.24, 1.2, { lowpass: 900 }),
+    piano(0.6, 42, 0.18, 1.2, { lowpass: 900 }),
+    piano(0.6, 43, 0.16, 1.2, { lowpass: 900 }),
+    { key: 'drum_low', at: 1.2, gain: 0.28, dur: 0.5 },
+    bellNote(2.2, 60, 0.08, 1.2),
+    { key: 'chain', at: 1.8, gain: 0.12, dur: 0.8 }
+  ],
+  // The Star: Twinkle, Twinkle, Little Star on bells and piano.
+  'major-17': [
+    piano(0, 60, 0.22, 0.5),
+    piano(0.45, 60, 0.2, 0.5),
+    piano(0.9, 67, 0.21, 0.5),
+    piano(1.35, 67, 0.2, 0.5),
+    piano(1.8, 69, 0.2, 0.5),
+    piano(2.25, 69, 0.19, 0.5),
+    piano(2.7, 67, 0.2, 0.9),
+    piano(3.15, 65, 0.18, 0.5),
+    piano(3.6, 65, 0.18, 0.5),
+    piano(4.05, 64, 0.18, 0.5),
+    piano(4.5, 64, 0.17, 0.5),
+    piano(4.95, 62, 0.17, 0.5),
+    piano(5.4, 62, 0.17, 0.5),
+    piano(5.85, 60, 0.18, 0.9),
+    bellNote(0, 84, 0.1, 0.8),
+    bellNote(1.8, 88, 0.08, 1.0),
+    bellNote(5.85, 84, 0.1, 0.8)
+  ],
+  // The Moon: the opening arpeggios and melody of the Moonlight Sonata.
+  'major-18': [
+    piano(0, 49, 0.12, 0.5, { lowpass: 3000 }),
+    piano(0.32, 56, 0.11, 0.5, { lowpass: 3000 }),
+    piano(0.64, 61, 0.11, 0.5, { lowpass: 3000 }),
+    piano(0.96, 64, 0.1, 0.5, { lowpass: 3000 }),
+    piano(1.28, 49, 0.11, 0.5, { lowpass: 3000 }),
+    piano(1.6, 56, 0.1, 0.5, { lowpass: 3000 }),
+    piano(1.92, 61, 0.1, 0.5, { lowpass: 3000 }),
+    piano(2.24, 64, 0.09, 0.5, { lowpass: 3000 }),
+    piano(2.56, 49, 0.1, 0.5, { lowpass: 3000 }),
+    piano(2.88, 56, 0.09, 0.5, { lowpass: 3000 }),
+    piano(3.2, 61, 0.09, 0.5, { lowpass: 3000 }),
+    piano(3.52, 64, 0.08, 0.5, { lowpass: 3000 }),
+    piano(0.8, 68, 0.18, 0.9, { lowpass: 3200 }),
+    piano(1.8, 66, 0.17, 0.9, { lowpass: 3200 }),
+    piano(2.8, 64, 0.16, 0.9, { lowpass: 3200 }),
+    piano(3.8, 63, 0.15, 1.0, { lowpass: 3200 }),
+    piano(4.8, 61, 0.15, 1.4, { lowpass: 3000 })
+  ],
+  // The Sun: a bright fanfare with voices and bells.
+  'major-19': [
+    piano(0, 60, 0.2, 0.5),
+    piano(0.18, 64, 0.19, 0.5),
+    piano(0.36, 67, 0.18, 0.5),
+    piano(0.54, 72, 0.18, 0.8),
+    ...chord(0.6, [60, 64, 67], 0.1, 1.4, { lowpass: 5000 }),
+    bellNote(1.2, 84, 0.12, 1.0),
+    piano(1.8, 72, 0.16, 0.5),
+    piano(1.98, 76, 0.15, 0.5),
+    piano(2.16, 79, 0.15, 0.8),
+    bellNote(3.0, 88, 0.09, 1.2)
+  ],
+  // Judgement: a choir rising in stacked triads, answered by a bell.
   'major-20': [
-    ...chord(0, [55, 59, 62], 0.14, 0.7),
-    ...chord(0.35, [57, 60, 64], 0.14, 0.7),
-    ...chord(0.7, [60, 64, 67], 0.16, 1.0),
-    { key: 'bell_1', at: 0.8, gain: 0.2, dur: 0.9 }
+    ...chord(0, [60, 64, 67], 0.11, 1.0, { lowpass: 5000 }),
+    ...chord(1.0, [62, 66, 69], 0.1, 1.0, { lowpass: 5000 }),
+    ...chord(2.0, [64, 68, 71], 0.1, 1.0, { lowpass: 5000 }),
+    ...chord(3.0, [67, 71, 74], 0.11, 1.4, { lowpass: 5000 }),
+    bellNote(4.0, 84, 0.1, 1.2)
   ],
+  // The World: an a cappella chord climbing into a long final harmony.
   'major-21': [
-    piano(0, 48, 0.28, 1.6),
-    piano(0, 55, 0.24, 1.6),
-    piano(0, 60, 0.22, 1.6),
-    ...chord(0.2, [60, 64, 67, 72], 0.12, 1.6),
-    { key: 'bell_1', at: 0.5, gain: 0.2, dur: 1.0 },
-    { key: 'bell_2', at: 1.1, gain: 0.16, dur: 1.0 }
+    voice(0, 60, 0.15, 0.6),
+    voice(0.5, 64, 0.14, 0.6),
+    voice(1.0, 67, 0.14, 0.6),
+    voice(1.5, 71, 0.13, 0.6),
+    voice(2.0, 74, 0.12, 0.8),
+    ...chord(3.0, [60, 64, 67, 71, 74], 0.08, 3.0, { lowpass: 5000 }),
+    celloNote(0, 36, 0.12, 4.2, { lowpass: 1200 }),
+    bellNote(4.6, 84, 0.08, 1.2)
   ]
 };
 
 const STING_IDS = Object.keys(STING_EVENTS);
 
 const STING_DURATIONS = {
-  'major-0': 1.9,
-  'major-1': 1.8,
-  'major-2': 2.4,
-  'major-3': 2.2,
-  'major-4': 2.4,
-  'major-5': 2.6,
-  'major-6': 2.2,
-  'major-7': 2.0,
-  'major-8': 2.0,
-  'major-9': 2.6,
-  'major-10': 2.4,
-  'major-11': 1.8,
-  'major-12': 2.8,
-  'major-13': 2.4,
-  'major-14': 2.2,
-  'major-15': 2.0,
-  'major-16': 1.8,
-  'major-17': 2.4,
-  'major-18': 2.6,
-  'major-19': 2.0,
-  'major-20': 2.4,
-  'major-21': 2.6
+  'major-0': 4.4,
+  'major-1': 4.2,
+  'major-2': 5.0,
+  'major-3': 5.0,
+  'major-4': 5.8,
+  'major-5': 5.4,
+  'major-6': 4.8,
+  'major-7': 4.6,
+  'major-8': 5.0,
+  'major-9': 6.2,
+  'major-10': 5.2,
+  'major-11': 4.2,
+  'major-12': 5.8,
+  'major-13': 5.6,
+  'major-14': 4.8,
+  'major-15': 6.0,
+  'major-16': 5.8,
+  'major-17': 6.8,
+  'major-18': 6.2,
+  'major-19': 4.8,
+  'major-20': 5.4,
+  'major-21': 6.5
 };
 
 /** Play the recorded signature cue for one Major Arcana card. */
@@ -1048,7 +1244,13 @@ function playMajorSting(cardId) {
         at: event.at,
         gain: event.gain,
         rate: event.rate,
-        dur: event.dur
+        rateEnd: event.rateEnd,
+        dur: event.dur,
+        loop: event.loop,
+        attack: event.attack,
+        release: event.release,
+        lowpass: event.lowpass,
+        pan: event.pan
       });
       if (handle) handles.push(handle);
     }
