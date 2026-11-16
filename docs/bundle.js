@@ -4452,14 +4452,15 @@ function paintPosterBase(ctx, seed) {
   background.addColorStop(1, '#08050d');
   ctx.fillStyle = background;
   ctx.fillRect(0, 0, POSTER_W, POSTER_H);
-  const glow = ctx.createRadialGradient(780, 250, 20, 780, 250, 620);
-  glow.addColorStop(0, 'rgba(201,161,90,.24)');
+  const glow = ctx.createRadialGradient(540, 560, 20, 540, 560, 620);
+  glow.addColorStop(0, 'rgba(201,161,90,.20)');
   glow.addColorStop(1, 'rgba(201,161,90,0)');
   ctx.fillStyle = glow;
   ctx.fillRect(0, 0, POSTER_W, POSTER_H);
   for (let index = 0; index < 120; index += 1) {
     const x = (index * 137.5 + seed * 19) % POSTER_W;
     const y = (index * 211.7 + seed * 37) % POSTER_H;
+    if (x > 800 && x < 1035 && y > 40 && y < 255) continue;
     const size = index % 11 === 0 ? 2.4 : 1.1;
     ctx.fillStyle = index % 5 === 0 ? 'rgba(201,161,90,.75)' : 'rgba(232,220,200,.45)';
     ctx.beginPath();
@@ -4493,19 +4494,18 @@ function drawQr(ctx, text, x, y, size) {
   const matrix = qrMatrix(text, 'M');
   const quiet = 4;
   const cell = size / (matrix.count + quiet * 2);
-  const pad = cell * quiet;
   ctx.save();
   ctx.imageSmoothingEnabled = false;
-  ctx.fillStyle = '#f7efdd';
-  ctx.fillRect(x - pad, y - pad, size + pad * 2, size + pad * 2);
-  ctx.strokeStyle = 'rgba(201,161,90,.85)';
-  ctx.lineWidth = 2;
-  ctx.strokeRect(x - pad, y - pad, size + pad * 2, size + pad * 2);
-  ctx.fillStyle = '#0b0910';
+  const gold = ctx.createLinearGradient(x, y, x + size, y + size);
+  gold.addColorStop(0, '#f8e3b3');
+  gold.addColorStop(0.42, '#e1b96d');
+  gold.addColorStop(0.78, '#c99649');
+  gold.addColorStop(1, '#b17c34');
+  ctx.fillStyle = gold;
   for (let row = 0; row < matrix.count; row += 1) {
     for (let col = 0; col < matrix.count; col += 1) {
       if (!matrix.dark(row, col)) continue;
-      ctx.fillRect(x + col * cell, y + row * cell, Math.ceil(cell), Math.ceil(cell));
+      ctx.fillRect(x + col * cell, y + row * cell, Math.ceil(cell + 0.25), Math.ceil(cell + 0.25));
     }
   }
   ctx.restore();
@@ -4536,53 +4536,76 @@ async function buildSpreadPoster({ draw, reading, t, siteUrl }) {
   paintBrand(ctx, t, (draw && draw.dateKey) || '');
   const entries = (reading && reading.cards) || [];
   const images = await Promise.all(entries.map((entry) => loadArtImage(CARD_ART[entry.card.id])));
-  const cardWidth = 292;
-  const cardHeight = 408;
-  const gap = 32;
+  const cardWidth = 286;
+  const cardHeight = 400;
+  const gap = 34;
   const total = entries.length * cardWidth + Math.max(0, entries.length - 1) * gap;
   const startX = (POSTER_W - total) / 2;
   entries.forEach((entry, index) => {
     const x = startX + index * (cardWidth + gap);
-    drawPosterCard(ctx, images[index], x, 250, cardWidth, cardHeight, entry.reversed);
+    drawPosterCard(ctx, images[index], x, 246, cardWidth, cardHeight, entry.reversed);
     ctx.textAlign = 'center';
     ctx.fillStyle = '#e8dcc8';
-    ctx.font = '500 24px ' + SERIF;
-    ctx.fillText(entry.name, x + cardWidth / 2, 672);
-    ctx.fillStyle = entry.reversed ? '#d8a35f' : 'rgba(201,177,140,.85)';
+    ctx.font = '500 25px ' + SERIF;
+    ctx.fillText(entry.name, x + cardWidth / 2, 706);
+    ctx.fillStyle = entry.reversed ? '#d8a35f' : 'rgba(201,177,140,.88)';
     ctx.font = '400 18px ' + SERIF;
-    ctx.fillText(entry.positionLabel + ' · ' + entry.orientationLabel, x + cardWidth / 2, 704);
+    ctx.fillText(entry.positionLabel + ' · ' + entry.orientationLabel, x + cardWidth / 2, 744);
   });
+
+  const panelLeft = 56;
+  const panelTop = 786;
+  const panelWidth = POSTER_W - panelLeft * 2;
+  const panelHeight = 540;
+  ctx.save();
+  ctx.fillStyle = 'rgba(8,6,14,.46)';
+  ctx.beginPath();
+  if (typeof ctx.roundRect === 'function') {
+    ctx.roundRect(panelLeft, panelTop, panelWidth, panelHeight, 18);
+  } else {
+    ctx.rect(panelLeft, panelTop, panelWidth, panelHeight);
+  }
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(201,161,90,.18)';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  ctx.restore();
+
+  const innerLeft = 96;
+  const innerWidth = POSTER_W - innerLeft * 2;
   ctx.textAlign = 'left';
   ctx.fillStyle = '#c9a15a';
   ctx.font = '500 20px ' + SERIF;
-  ctx.fillText(t('share.posterQuestion'), 68, 772);
+  ctx.fillText(t('share.posterQuestion'), innerLeft, 836);
   ctx.fillStyle = '#ece2cc';
   ctx.font = '400 30px ' + SERIF;
-  const questionLines = wrapLines(ctx, (draw && draw.question) || '', POSTER_W - 136, 3);
-  let cursor = drawLines(ctx, questionLines, 68, 816, 42) + 20;
-  ctx.strokeStyle = 'rgba(201,161,90,.34)';
+  const questionLines = wrapLines(ctx, (draw && draw.question) || '', innerWidth, 3);
+  let cursor = drawLines(ctx, questionLines, innerLeft, 884, 44) + 24;
+
+  ctx.strokeStyle = 'rgba(201,161,90,.24)';
   ctx.lineWidth = 1;
   ctx.beginPath();
-  ctx.moveTo(68, cursor);
-  ctx.lineTo(POSTER_W - 68, cursor);
+  ctx.moveTo(innerLeft, cursor);
+  ctx.lineTo(innerLeft + innerWidth, cursor);
   ctx.stroke();
-  cursor += 56;
+  cursor += 54;
+
   if (reading && reading.verdict) {
     ctx.fillStyle = '#c9a15a';
     ctx.font = '600 36px ' + SERIF;
-    ctx.fillText(reading.verdict.label, 68, cursor);
-    cursor += 42;
+    ctx.fillText(reading.verdict.label, innerLeft, cursor);
+    cursor += 44;
     if (reading.verdict.timing) {
       ctx.fillStyle = 'rgba(201,177,140,.9)';
       ctx.font = '400 22px ' + SERIF;
-      ctx.fillText(t('verdict.timing') + ' · ' + reading.verdict.timing, 70, cursor);
-      cursor += 38;
+      ctx.fillText(t('verdict.timing') + ' · ' + reading.verdict.timing, innerLeft + 2, cursor);
+      cursor += 40;
     }
     ctx.fillStyle = 'rgba(236,226,204,.92)';
-    ctx.font = '400 25px ' + SERIF;
-    const maxLines = Math.max(2, Math.min(7, Math.floor((1320 - cursor) / 40)));
-    const lines = wrapLines(ctx, reading.verdict.paragraph, POSTER_W - 136, maxLines);
-    drawLines(ctx, lines, 68, cursor, 40);
+    ctx.font = '400 23px ' + SERIF;
+    const maxLines = Math.max(2, Math.min(6, Math.floor((1310 - cursor) / 36)));
+    const lines = wrapLines(ctx, reading.verdict.paragraph, innerWidth, maxLines);
+    drawLines(ctx, lines, innerLeft, cursor, 36);
   }
   paintFooter(ctx, t, siteUrl || shareUrl());
   return canvas;
@@ -4607,36 +4630,47 @@ async function buildFatePoster({ draw, reading, t, siteUrl }) {
   ctx.fillStyle = wash;
   ctx.fillRect(0, 150, POSTER_W, 900);
   const image = await loadArtImage(CARD_ART[reading.card.id]);
-  drawPosterCard(ctx, image, 620, 250, 340, 474, reading.reversed);
+  drawPosterCard(ctx, image, 644, 250, 336, 470, reading.reversed);
+  const columnLeft = 68;
+  const columnWidth = 508;
   ctx.textAlign = 'left';
   ctx.fillStyle = '#c9a15a';
   ctx.font = '500 20px ' + SERIF;
-  ctx.fillText(t('fate.resultKicker'), 68, 276);
+  ctx.fillText(t('fate.resultKicker'), columnLeft, 282);
   ctx.fillStyle = '#ece2cc';
   ctx.font = '600 50px ' + SERIF;
-  ctx.fillText(reading.name, 68, 340);
+  ctx.fillText(reading.name, columnLeft, 352);
   ctx.fillStyle = '#c9a15a';
   ctx.font = '400 24px ' + SERIF;
-  ctx.fillText(reading.orientationLabel + ' · ' + t('fate.color') + ' ' + reading.colorName, 70, 380);
+  ctx.fillText(reading.orientationLabel + ' · ' + t('fate.color') + ' ' + reading.colorName, columnLeft + 2, 398);
   ctx.fillStyle = reading.color || '#c9a15a';
   ctx.beginPath();
-  ctx.arc(100, 470, 34, 0, Math.PI * 2);
+  ctx.arc(columnLeft + 32, 486, 34, 0, Math.PI * 2);
   ctx.fill();
   ctx.strokeStyle = 'rgba(232,220,200,.6)';
   ctx.lineWidth = 2;
   ctx.stroke();
   ctx.fillStyle = 'rgba(236,226,204,.94)';
-  ctx.font = '400 26px ' + SERIF;
-  const essenceLines = wrapLines(ctx, reading.essence, POSTER_W - 520, 8);
-  let cursor = drawLines(ctx, essenceLines, 68, 540, 44) + 26;
+  ctx.font = '400 25px ' + SERIF;
+  const essenceLines = wrapLines(ctx, reading.essence, columnWidth, 7);
+  let cursor = drawLines(ctx, essenceLines, columnLeft, 556, 42) + 22;
+
+  ctx.strokeStyle = 'rgba(201,161,90,.24)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(columnLeft, cursor);
+  ctx.lineTo(columnLeft + columnWidth, cursor);
+  ctx.stroke();
+  cursor += 50;
+
   ctx.fillStyle = 'rgba(201,161,90,.95)';
   ctx.font = '500 22px ' + SERIF;
-  ctx.fillText(t('potion.kicker'), 68, cursor);
+  ctx.fillText(t('potion.kicker'), columnLeft, cursor);
   cursor += 40;
   ctx.fillStyle = 'rgba(236,226,204,.88)';
   ctx.font = '400 24px ' + SERIF;
-  const adviceLines = wrapLines(ctx, reading.advice, POSTER_W - 136, 8);
-  drawLines(ctx, adviceLines, 68, cursor, 40);
+  const adviceLines = wrapLines(ctx, reading.advice, columnWidth, 7);
+  drawLines(ctx, adviceLines, columnLeft, cursor, 38);
   paintFooter(ctx, t, siteUrl || shareUrl());
   return canvas;
 }
